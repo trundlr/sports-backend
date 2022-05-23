@@ -4,19 +4,14 @@ This repository serves as a backend for the s&box game [Sports](https://github.c
 The goal is to provide functionality to players that can't be handled with s&box alone, such as persistence.
 
 ### Running
-Make sure you have nodejs installed.
+You need to have Docker and docker-compose installed.
 
-First, install the dependencies:
+Then, run the following command:
 ```bash
-npm install
+docker-compose up -d --build
 ```
 
-Next, compile the code:
+You can monitor the logs of the server:
 ```bash
-./node_modules/.bin/tsc
-```
-
-Then, run the server:
-```bash
-node ./dist/server/server.js
+docker logs --follow sports-backend
 ```
