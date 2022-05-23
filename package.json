@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/ws": "^8.5.3",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "ws": "^8.6.0"
+  },
+  "name": "sports-backend",
+  "version": "0.0.1",
+  "description": "Backend server for Sports metrics and persistence.",
+  "main": "src/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "trundler-dev",
+  "license": "MIT"
+}
