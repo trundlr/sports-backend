@@ -4,5 +4,17 @@ services:
       context: .
     container_name: sports-backend
     restart: unless-stopped
+    environment:
+      - MONGO_URI_STRING=mongodb://sports-mongodb:27017/sports
     ports:
       - 8080:8080
+    depends_on:
+      - sports-mongodb
+  sports-mongodb:
+    container_name: sports-mongodb
+    restart: always
+    image: mongo:latest
+    volumes:
+      - /opt/sports-mongo-data:/data/db
+    ports:
+      - 27017:27017
