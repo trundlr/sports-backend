@@ -1,15 +1,15 @@
 import { Schema, model } from 'mongoose';
 
-interface IUser {
+interface IPlayer {
     name: string;
     playerId: string;
     authToken: string;
 }
 
-const UserSchema: Schema = new Schema({
+const PlayerSchema: Schema = new Schema({
     name: { type: String, required: true },
     playerId: { type: String, required: true },
     authToken: { type: String, required: true }
 });
 
-export = model<IUser>('User', UserSchema);
+export = model<IPlayer>('User', PlayerSchema);
