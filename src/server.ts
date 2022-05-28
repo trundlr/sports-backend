@@ -2,9 +2,10 @@ import 'dotenv/config';
 
 import { WebSocket } from 'ws';
 import { connect } from 'mongoose';
-import auth = require('./auth/auth');
+
 import incomingMessage = require('./data/incoming-message');
-import player = require('./db/models/player');
+import outgoingMessage = require('./data/outgoing-message');
+import messageHandler = require('./data/message-handler');
 
 // Initialize MongoDB
 initializeMongoConnection().catch(err => console.log(err));
@@ -21,21 +22,18 @@ wss.on('connection', (socket: WebSocket) => {
     sockets.push(socket);
 
     socket.on('message', (inboundMessage: string) => {
-        let parsedMessage = <incomingMessage>JSON.parse(inboundMessage);
-        console.log('Received a message: %s', parsedMessage.messageBody);
+        const parsedMessage = <incomingMessage>JSON.parse(inboundMessage);
 
-        if (!parsedMessage.isServer) {
-            const pl = new player({
-                name: "test",
-                playerId: parsedMessage.clientId,
-                authToken: auth.generateUUIDv4()
+        messageHandler.handleMessage(parsedMessage)
+            .then((response: outgoingMessage) => {
+                if (response !== undefined) {
+                    socket.send(JSON.stringify(response));
+                }
+            })
+            .catch((err) => {
+                console.log(err);
             });
-
-            pl.save();
-        }
-
-        socket.send(`Hello, you sent -> ${JSON.stringify(parsedMessage)}`);
     });
 
-    socket.send('Hello there, you have connected to the server.')
-})
+    socket.send('Socket connection ACK');
+});
